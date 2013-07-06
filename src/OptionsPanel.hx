@@ -155,7 +155,12 @@ class OptionsPanel extends Sprite
 		agentsLabel.y = line.y + 10;
 		addChild(agentsLabel);
 		
-		// TODO: Slider
+		// SLIDE TOGGLE //
+		
+		var agentSlider:SlideBar = new SlideBar(1, 100);
+		agentSlider.x = panel.width / 2 - agentSlider.width / 2;
+		agentSlider.y = agentsLabel.y + agentsLabel.height + 10;
+		addChild(agentSlider);
 		
 		// LINE
 		line = new Bitmap(new BitmapData(180, 1, true, 0xfff1f2f2));

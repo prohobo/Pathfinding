@@ -52,8 +52,7 @@ class OptionSlider extends Sprite
 		minX = -(options.width - containerBox.width);
 		
 		options.addEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
-		if (stage.hasEventListener(MouseEvent.MOUSE_UP) == false)
-			stage.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+		stage.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
 	}
 	
 	private function OnMouseDown(e:MouseEvent)
