@@ -12,6 +12,15 @@ import flash.text.TextFormat;
  */
 class OptionsPanel extends Sprite
 {
+	private var algoOptionSlider:OptionSlider;
+	private var searchSpaceOptionSlider:OptionSlider;
+	private var agentSlider:SlideBar;
+	private var tweaksOptionSlider:OptionSlider;
+	
+	private var startBtn:Button;
+	private var pauseBtn:Button;
+	private var resetBtn:Button;
+	
 	public function new() 
 	{
 		super();
@@ -61,7 +70,7 @@ class OptionsPanel extends Sprite
 		algoLabel.y = line.y + 10;
 		addChild(algoLabel);
 		
-		var algoOptionSlider:OptionSlider = new OptionSlider();
+		algoOptionSlider = new OptionSlider();
 		
 		var box:Bitmap = new Bitmap(new BitmapData(180, 40, true, 0x33000000));
 		algoOptionSlider.containerBox.addChild(box);
@@ -106,7 +115,7 @@ class OptionsPanel extends Sprite
 		
 		// OPTION SLIDER //
 		
-		var searchSpaceOptionSlider:OptionSlider = new OptionSlider();
+		searchSpaceOptionSlider = new OptionSlider();
 		
 		box = new Bitmap(new BitmapData(180, 40, true, 0x33000000));
 		searchSpaceOptionSlider.containerBox.addChild(box);
@@ -157,7 +166,7 @@ class OptionsPanel extends Sprite
 		
 		// SLIDE TOGGLE //
 		
-		var agentSlider:SlideBar = new SlideBar(1, 100);
+		agentSlider = new SlideBar(1, 100);
 		agentSlider.x = panel.width / 2 - agentSlider.width / 2;
 		agentSlider.y = agentsLabel.y + agentsLabel.height + 10;
 		addChild(agentSlider);
@@ -181,7 +190,7 @@ class OptionsPanel extends Sprite
 		
 		// OPTION SLIDER //
 		
-		var tweaksOptionSlider:OptionSlider = new OptionSlider();
+		tweaksOptionSlider = new OptionSlider();
 		
 		box = new Bitmap(new BitmapData(180, 40, true, 0x33000000));
 		tweaksOptionSlider.containerBox.addChild(box);
@@ -219,8 +228,33 @@ class OptionsPanel extends Sprite
 		line.y = tweaksLabel.y + tweaksLabel.height + 60;
 		addChild(line);
 		
-		// buttons
+		// BUTTONS //
+		var startBtnGfx:Sprite = new Sprite();
+		var sbBg:Bitmap = new Bitmap(new BitmapData(55, 40, true, 0xffc3c3c3));
+		startBtnGfx.addChild(sbBg);
 		
+		startBtn = new Button(startBtnGfx, "Start");
+		startBtn.x = 10;
+		startBtn.y = line.y + 10;
+		addChild(startBtn);
+		
+		var pauseBtnGfx:Sprite = new Sprite();
+		var pbBg:Bitmap = new Bitmap(new BitmapData(55, 40, true, 0xffc3c3c3));
+		pauseBtnGfx.addChild(pbBg);
+		
+		pauseBtn = new Button(pauseBtnGfx, "Pause");
+		pauseBtn.x = startBtn.x + startBtn.width + 7;
+		pauseBtn.y = line.y + 10;
+		addChild(pauseBtn);
+		
+		var resetBtnGfx:Sprite = new Sprite();
+		var rbBg:Bitmap = new Bitmap(new BitmapData(55, 40, true, 0xffc3c3c3));
+		resetBtnGfx.addChild(rbBg);
+		
+		resetBtn = new Button(resetBtnGfx, "Reset");
+		resetBtn.x = pauseBtn.x + pauseBtn.width + 7;
+		resetBtn.y = line.y + 10;
+		addChild(resetBtn);
 	}
 	
 }
