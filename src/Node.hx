@@ -30,11 +30,11 @@ class Node
 		parent = _parent;
 		vars = { };
 		
-		if (GV.debugMode)
-			DebugDraw();
+		//if (GV.debugMode)
+			//DebugDraw();
 	}
 	
-	private function DebugDraw()
+	public function DebugDraw()
 	{
 		debugGfx = new Sprite();
 		debugGfx.graphics.lineStyle(1, 0xffffff, 0.1);
@@ -50,11 +50,15 @@ class Node
 		
 		for (n in GV.nodes)
 		{
-			var distance = Math.sqrt(Math.pow(x - n.x, 2) + Math.pow(y - n.y, 2));
-			if (distance <= 60)
+			if (n.x != x || n.y != y)
 			{
-				var temp = new Node(n.x, n.y, n.size, n.parent);
-				neighborList.push(temp);
+				var distance = Math.sqrt(Math.pow(x - n.x, 2) + Math.pow(y - n.y, 2));
+				if (distance <= Math.sqrt(Math.pow(60, 2) + Math.pow(60, 2)))
+				{
+					//n.caught = true;
+					var temp = new Node(n.x, n.y, n.size, n.parent);
+					neighborList.push(temp);
+				}
 			}
 		}
 		

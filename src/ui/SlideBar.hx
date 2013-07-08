@@ -4,6 +4,9 @@ import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormat;
 
 /**
  * ...
@@ -18,6 +21,9 @@ class SlideBar extends Sprite
 	private var max:Int;
 	
 	public var value:Float;
+	
+	private var valText:TextField;
+	private var tf:TextFormat;
 	
 	public function new(_min:Int, _max:Int) 
 	{
@@ -39,6 +45,21 @@ class SlideBar extends Sprite
 		slideTrack.y = slider.height / 2 - slideTrack.height / 2;
 		addChild(slideTrack);
 		addChild(slider);
+		
+		tf = new TextFormat();
+		tf.font = "SSP-Regular";
+		tf.color = 0xc3c3c3;
+		tf.size = 16;
+		
+		valText = new TextField();
+		valText.text = Std.string(value);
+		valText.autoSize = TextFieldAutoSize.CENTER;
+		valText.embedFonts = true;
+		valText.mouseEnabled = false;
+		valText.setTextFormat(tf);
+		valText.x = slideTrack.width / 2 - valText.width / 2;
+		valText.y = 20;
+		addChild(valText);
 		
 		addEventListener(Event.ADDED_TO_STAGE, OnAdded);
 		addEventListener(Event.REMOVED_FROM_STAGE, OnRemoved);
@@ -67,6 +88,8 @@ class SlideBar extends Sprite
 			slider.x = 0;
 		
 		value = min + Math.floor((max - min) * (slider.x / (slideTrack.width - slider.width)));
+		valText.text = Std.string(value);
+		valText.setTextFormat(tf);
 	}
 	
 	private function OnMouseUp(e:MouseEvent)
