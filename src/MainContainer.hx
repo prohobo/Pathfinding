@@ -1,5 +1,6 @@
 package ;
 import flash.display.Sprite;
+import ui.OptionsPanel;
 
 /**
  * ...

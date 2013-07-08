@@ -1,4 +1,4 @@
-package ;
+package ui;
 import com.eclecticdesignstudio.motion.Actuate;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
@@ -51,14 +51,16 @@ class OptionSlider extends Sprite
 		
 		minX = -(options.width - containerBox.width);
 		
-		options.addEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
-		stage.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+		addEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
+		addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
 	}
 	
 	private function OnMouseDown(e:MouseEvent)
 	{
-		if (options.hasEventListener(MouseEvent.MOUSE_MOVE) == false)
-			options.addEventListener(MouseEvent.MOUSE_MOVE, OnMouseMove);
+		if (hasEventListener(MouseEvent.MOUSE_MOVE) == false)
+			addEventListener(MouseEvent.MOUSE_MOVE, OnMouseMove);
+		
+		addEventListener(MouseEvent.MOUSE_OUT, OnMouseUp);
 		
 		mouseXDistance = mouseX - options.x;
 	}
@@ -71,28 +73,39 @@ class OptionSlider extends Sprite
 		
 		if (options.x < minX)
 			options.x = minX;
+		
 	}
 	
 	private function OnMouseUp(e:MouseEvent)
 	{
-		if (options.hasEventListener(MouseEvent.MOUSE_MOVE) == true)
-			options.removeEventListener(MouseEvent.MOUSE_MOVE, OnMouseMove);
+		removeEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+		removeEventListener(MouseEvent.MOUSE_OUT, OnMouseUp);
+		
+		if (hasEventListener(MouseEvent.MOUSE_MOVE) == true)
+			removeEventListener(MouseEvent.MOUSE_MOVE, OnMouseMove);
 		
 		if (Math.abs(options.x % containerBox.width) < containerBox.width / 2)
 		{
-			Actuate.tween(options, 0.5, { x: options.x - (options.x % containerBox.width) } );
+			Actuate.tween(options, 0.5, { x: options.x - (options.x % containerBox.width) } ).onComplete(SetSelection);
 		}
 		else if (Math.abs(options.x % containerBox.width) >= containerBox.width / 2)
 		{
-			Actuate.tween(options, 0.5, { x: options.x + (-180 - (options.x % containerBox.width)) } );
+			Actuate.tween(options, 0.5, { x: options.x + ( -180 - (options.x % containerBox.width)) } ).onComplete(SetSelection);
 		}
+	}
+	
+	private function SetSelection()
+	{
+		selectedOption = Std.int(Math.abs(options.x / containerBox.width));
+		
+		addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
 	}
 	
 	private function OnRemoved(e:Event)
 	{
 		removeEventListener(Event.REMOVED_FROM_STAGE, OnRemoved);
-		if (stage.hasEventListener(MouseEvent.MOUSE_UP) == true)
-			stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+		if (hasEventListener(MouseEvent.MOUSE_UP) == true)
+			removeEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
 	}
 	
 }

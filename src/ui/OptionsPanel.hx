@@ -1,7 +1,9 @@
-package ;
+package ui;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.MouseEvent;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
@@ -25,13 +27,13 @@ class OptionsPanel extends Sprite
 	{
 		super();
 		
-		var panel:Bitmap = new Bitmap(new BitmapData(200, 480, true, 0xffffffff));
+		var panel:Bitmap = new Bitmap(new BitmapData(200, 480, true, 0xff323232));
 		addChild(panel);
 		
 		// label text format
 		var labelTF:TextFormat = new TextFormat();
 		labelTF.font = "SSP-BlackIt";
-		labelTF.color = 0x323232;
+		labelTF.color = 0xc3c3c3;
 		labelTF.size = 16;
 		
 		// option text format
@@ -120,9 +122,9 @@ class OptionsPanel extends Sprite
 		box = new Bitmap(new BitmapData(180, 40, true, 0x33000000));
 		searchSpaceOptionSlider.containerBox.addChild(box);
 		
-		option1 = new Sprite();
-		
 		// OPTIONS //
+		
+		option1 = new Sprite();
 		
 		o1Bg = new Bitmap(new BitmapData(180, 40, true, 0xfff3f3f3));
 		option1.addChild(o1Bg);
@@ -137,6 +139,24 @@ class OptionsPanel extends Sprite
 		option1.addChild(o1Text);
 		
 		searchSpaceOptionSlider.options.addChild(option1);
+		
+		var option2 = new Sprite();
+		
+		var o2Bg = new Bitmap(new BitmapData(180, 40, true, 0xfff3f3f3));
+		option2.addChild(o2Bg);
+		var o2Text = new TextField();
+		o2Text.text = "Quadtree";
+		o2Text.autoSize = TextFieldAutoSize.CENTER;
+		o2Text.embedFonts = true;
+		o2Text.mouseEnabled = false;
+		o2Text.setTextFormat(optionTF);
+		o2Text.x = o2Bg.width / 2 - o2Text.width / 2;
+		o2Text.y = o2Bg.height / 2 - o2Text.height / 2;
+		option2.addChild(o2Text);
+		
+		option2.x = 180;
+		
+		searchSpaceOptionSlider.options.addChild(option2);
 		
 		// END OF OPTIONS //
 		
@@ -255,6 +275,39 @@ class OptionsPanel extends Sprite
 		resetBtn.x = pauseBtn.x + pauseBtn.width + 7;
 		resetBtn.y = line.y + 10;
 		addChild(resetBtn);
+		
+		startBtn.addEventListener(MouseEvent.CLICK, StartBtnClick);
+	}
+	
+	private function StartBtnClick(e:MouseEvent)
+	{
+		startBtn.removeEventListener(MouseEvent.CLICK, StartBtnClick);
+		
+		GV.algorithm = algoOptionSlider.selectedOption;
+		GV.searchSpace = searchSpaceOptionSlider.selectedOption;
+		GV.agentCount = Std.int(agentSlider.value);
+		GV.tweak = tweaksOptionSlider.selectedOption;
+		
+		GV.visPanelRef.Begin();
+		
+		pauseBtn.addEventListener(MouseEvent.CLICK, PauseBtnClick);
+		resetBtn.addEventListener(MouseEvent.CLICK, ResetBtnClick);
+	}
+	
+	private function PauseBtnClick(e:MouseEvent)
+	{
+		pauseBtn.removeEventListener(MouseEvent.CLICK, PauseBtnClick);
+		startBtn.addEventListener(MouseEvent.CLICK, StartBtnClick);
+		
+		// pause
+	}
+	
+	private function ResetBtnClick(e:MouseEvent)
+	{
+		resetBtn.removeEventListener(MouseEvent.CLICK, ResetBtnClick);
+		
+		// clear screen
+		GV.visPanelRef.Reset();
 	}
 	
 }

@@ -17,7 +17,7 @@ class OutputPanel extends Sprite
 		x = 200;
 		y = 420;
 		
-		var panel:Bitmap = new Bitmap(new BitmapData(600, 60, true, 0xff323232));
+		var panel:Bitmap = new Bitmap(new BitmapData(600, 60, true, 0xff212121));
 		addChild(panel);
 	}
 	
