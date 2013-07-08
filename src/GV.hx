@@ -1,4 +1,5 @@
 package ;
+import flash.display.Sprite;
 import flash.Vector;
 
 /**
@@ -18,4 +19,7 @@ class GV
 	public static var agents:Array<Agent>;
 	
 	public static var debugMode:Bool = true;
+	public static var debugLayer:Sprite;
+	public static var debugLayerAlt:Sprite;
+	public static var alternateDebugLayer:Bool = false;
 }

@@ -41,7 +41,16 @@ class Node
 		debugGfx.graphics.beginFill(0xffffff, 0);
 		debugGfx.graphics.drawRect(x, y, size, size);
 		debugGfx.graphics.endFill();
-		GV.visPanelRef.addChild(debugGfx);
+		
+		if (GV.alternateDebugLayer)
+		{
+			GV.debugLayerAlt.addChild(debugGfx);
+		}
+		else
+		{
+			GV.debugLayer.addChild(debugGfx);
+		}
+		
 	}
 	
 	public function GetNeighbors():Array<Node>

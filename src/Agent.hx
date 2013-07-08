@@ -40,33 +40,13 @@ class Agent extends Sprite
 	{
 		var a:Algorithm = null;
 		
-		var test:Node = GC.GetNearestNode(this);
-		if (GV.debugMode)
-		{
-			test.debugGfx.graphics.beginFill(0xffffff, 0.2);
-			test.debugGfx.graphics.drawRect(test.x, test.y, 60, 60);
-			test.debugGfx.graphics.endFill();
-		}
-		
 		switch (GV.algorithm)
 		{
 			case 0:
-				a = new AStar(test, _goal);
+				a = new AStar(GC.GetNearestNode(this), _goal);
 		}
 		
 		path = a.GetPath();
-		
-		if (GV.debugMode)
-		{
-			for (n in 0...path.length - 1)
-			{
-				test.debugGfx.graphics.beginFill(0x00ff00, 0.5);
-				test.debugGfx.graphics.lineStyle(1, 0x00ff00, 0.5);
-				test.debugGfx.graphics.moveTo(path[n].x + 30, path[n].y + 30);
-				test.debugGfx.graphics.lineTo(path[n + 1].x + 30, path[n + 1].y + 30);
-				test.debugGfx.graphics.endFill();
-			}
-		}
 		
 		addEventListener(Event.ENTER_FRAME, Update);
 	}
