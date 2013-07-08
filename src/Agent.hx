@@ -39,6 +39,7 @@ class Agent extends Sprite
 	public function CalculatePath(_goal:Node)
 	{
 		var a:Algorithm = null;
+		path = [];
 		
 		switch (GV.algorithm)
 		{
@@ -47,8 +48,10 @@ class Agent extends Sprite
 		}
 		
 		path = a.GetPath();
+		a = null;
 		
-		addEventListener(Event.ENTER_FRAME, Update);
+		if (hasEventListener(Event.ENTER_FRAME) == false)
+			addEventListener(Event.ENTER_FRAME, Update);
 	}
 	
 	public function Update(e:Event)
@@ -58,6 +61,19 @@ class Agent extends Sprite
 			var angle = Math.atan2(path[0].y + 30 - y, path[0].x + 30 - x);
 			x += Math.cos(angle) * 3;
 			y += Math.sin(angle) * 3;
+			
+			for (a in GV.agents)
+			{
+				if (a != this)
+				{
+					if (a.hitTestObject(this))
+					{
+						angle = Math.atan2(a.y - y, a.x - x);
+						x -= Math.cos(angle) * 3;
+						y -= Math.sin(angle) * 3;
+					}
+				}
+			}
 			
 			if (Math.sqrt(Math.pow(path[0].x + 30 - x, 2) + Math.pow(path[0].y + 30 - y, 2)) <= 30)
 			{

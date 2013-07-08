@@ -19,6 +19,8 @@ class OptionsPanel extends Sprite
 	private var agentSlider:SlideBar;
 	private var tweaksOptionSlider:OptionSlider;
 	
+	private var panel:Sprite;
+	
 	private var startBtn:Button;
 	private var pauseBtn:Button;
 	private var resetBtn:Button;
@@ -27,8 +29,10 @@ class OptionsPanel extends Sprite
 	{
 		super();
 		
-		var panel:Bitmap = new Bitmap(new BitmapData(200, 480, true, 0xff323232));
+		panel = new Sprite();
 		addChild(panel);
+		var panelBg:Bitmap = new Bitmap(new BitmapData(200, 480, true, 0xff323232));
+		panel.addChild(panelBg);
 		
 		// label text format
 		var labelTF:TextFormat = new TextFormat();
@@ -49,15 +53,15 @@ class OptionsPanel extends Sprite
 		title.embedFonts = true;
 		title.mouseEnabled = false;
 		title.setTextFormat(labelTF);
-		title.x = panel.width / 2 - title.width / 2;
+		title.x = panelBg.width / 2 - title.width / 2;
 		title.y = 10;
-		addChild(title);
+		panel.addChild(title);
 		
 		// LINE
 		var line:Bitmap = new Bitmap(new BitmapData(180, 1, true, 0xfff1f2f2));
-		line.x = panel.width / 2 - line.width / 2;
+		line.x = panelBg.width / 2 - line.width / 2;
 		line.y = title.y + title.height + 10;
-		addChild(line);
+		panel.addChild(line);
 		
 		labelTF.font = "SSP-SemiboldIt";
 		
@@ -70,7 +74,7 @@ class OptionsPanel extends Sprite
 		algoLabel.setTextFormat(labelTF);
 		algoLabel.x = 10;
 		algoLabel.y = line.y + 10;
-		addChild(algoLabel);
+		panel.addChild(algoLabel);
 		
 		algoOptionSlider = new OptionSlider();
 		
@@ -93,16 +97,16 @@ class OptionsPanel extends Sprite
 		
 		algoOptionSlider.options.addChild(option1);
 		
-		algoOptionSlider.x = panel.width / 2 - algoOptionSlider.containerBox.width / 2;
+		algoOptionSlider.x = panelBg.width / 2 - algoOptionSlider.containerBox.width / 2;
 		algoOptionSlider.y = algoLabel.y + algoLabel.height + 10;
 		
-		addChild(algoOptionSlider);
+		panel.addChild(algoOptionSlider);
 		
 		// LINE
 		line = new Bitmap(new BitmapData(180, 1, true, 0xfff1f2f2));
-		line.x = panel.width / 2 - line.width / 2;
+		line.x = panelBg.width / 2 - line.width / 2;
 		line.y = algoLabel.y + algoLabel.height + 60;
-		addChild(line);
+		panel.addChild(line);
 		
 		// search space (rect grid, quad tree)
 		var searchSpaceLabel:TextField = new TextField();
@@ -113,7 +117,7 @@ class OptionsPanel extends Sprite
 		searchSpaceLabel.setTextFormat(labelTF);
 		searchSpaceLabel.x = 10;
 		searchSpaceLabel.y = line.y + 10;
-		addChild(searchSpaceLabel);
+		panel.addChild(searchSpaceLabel);
 		
 		// OPTION SLIDER //
 		
@@ -160,18 +164,18 @@ class OptionsPanel extends Sprite
 		
 		// END OF OPTIONS //
 		
-		searchSpaceOptionSlider.x = panel.width / 2 - searchSpaceOptionSlider.containerBox.width / 2;
+		searchSpaceOptionSlider.x = panelBg.width / 2 - searchSpaceOptionSlider.containerBox.width / 2;
 		searchSpaceOptionSlider.y = searchSpaceLabel.y + searchSpaceLabel.height + 10;
 		
-		addChild(searchSpaceOptionSlider);
+		panel.addChild(searchSpaceOptionSlider);
 		
 		// END OF OPTION SLIDER //
 		
 		// LINE
 		line = new Bitmap(new BitmapData(180, 1, true, 0xfff1f2f2));
-		line.x = panel.width / 2 - line.width / 2;
+		line.x = panelBg.width / 2 - line.width / 2;
 		line.y = searchSpaceLabel.y + searchSpaceLabel.height + 60;
-		addChild(line);
+		panel.addChild(line);
 		
 		// agents (1-100)
 		var agentsLabel:TextField = new TextField();
@@ -182,20 +186,20 @@ class OptionsPanel extends Sprite
 		agentsLabel.setTextFormat(labelTF);
 		agentsLabel.x = 10;
 		agentsLabel.y = line.y + 10;
-		addChild(agentsLabel);
+		panel.addChild(agentsLabel);
 		
 		// SLIDE TOGGLE //
 		
 		agentSlider = new SlideBar(1, 100);
-		agentSlider.x = panel.width / 2 - agentSlider.width / 2;
+		agentSlider.x = panelBg.width / 2 - agentSlider.width / 2;
 		agentSlider.y = agentsLabel.y + agentsLabel.height + 10;
-		addChild(agentSlider);
+		panel.addChild(agentSlider);
 		
 		// LINE
 		line = new Bitmap(new BitmapData(180, 1, true, 0xfff1f2f2));
-		line.x = panel.width / 2 - line.width / 2;
+		line.x = panelBg.width / 2 - line.width / 2;
 		line.y = agentsLabel.y + agentsLabel.height + 60;
-		addChild(line);
+		panel.addChild(line);
 		
 		// tweaks (not official algos, but basic optimizations)
 		var tweaksLabel:TextField = new TextField();
@@ -206,7 +210,7 @@ class OptionsPanel extends Sprite
 		tweaksLabel.setTextFormat(labelTF);
 		tweaksLabel.x = 10;
 		tweaksLabel.y = line.y + 10;
-		addChild(tweaksLabel);
+		panel.addChild(tweaksLabel);
 		
 		// OPTION SLIDER //
 		
@@ -235,18 +239,18 @@ class OptionsPanel extends Sprite
 		
 		// END OF OPTIONS //
 		
-		tweaksOptionSlider.x = panel.width / 2 - tweaksOptionSlider.containerBox.width / 2;
+		tweaksOptionSlider.x = panelBg.width / 2 - tweaksOptionSlider.containerBox.width / 2;
 		tweaksOptionSlider.y = tweaksLabel.y + tweaksLabel.height + 10;
 		
-		addChild(tweaksOptionSlider);
+		panel.addChild(tweaksOptionSlider);
 		
 		// END OF OPTION SLIDER //
 		
 		// LINE
 		line = new Bitmap(new BitmapData(180, 1, true, 0xfff1f2f2));
-		line.x = panel.width / 2 - line.width / 2;
+		line.x = panelBg.width / 2 - line.width / 2;
 		line.y = tweaksLabel.y + tweaksLabel.height + 60;
-		addChild(line);
+		panel.addChild(line);
 		
 		// BUTTONS //
 		var startBtnGfx:Sprite = new Sprite();

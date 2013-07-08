@@ -5,8 +5,11 @@ import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
+import flash.events.TimerEvent;
 import flash.geom.Point;
+import flash.system.System;
 import flash.Vector;
+import haxe.Timer;
 
 /**
  * ...
@@ -14,6 +17,7 @@ import flash.Vector;
  */
 class VisualizationPanel extends Sprite
 {
+	private var timer:flash.utils.Timer;
 	
 	public function new() 
 	{
@@ -35,24 +39,21 @@ class VisualizationPanel extends Sprite
 		AddAgents();
 		
 		addEventListener(MouseEvent.CLICK, OnClick);
+		
+		timer = new flash.utils.Timer(3000, 999);
+		timer.start();
+		timer.addEventListener(TimerEvent.TIMER, OnTimerTick);
+		OnTimerTick(null);
 	}
 	
-	public function Reset()
-	{
-		RemoveGrid();
-		RemoveAgents();
-		GV.alternateDebugLayer = false;
-		removeEventListener(MouseEvent.CLICK, OnClick);
-	}
-	
-	private var goalNode:Node;
-	
-	private function OnClick(e:MouseEvent)
+	private function OnTimerTick(e:TimerEvent)
 	{
 		var nearest:Float = 9999;
 		var targetNode:Node = null;
 		
-		for (n in GV.nodes)
+		targetNode = GV.nodes[Math.floor(Math.random() * GV.nodes.length)];
+		
+		/*for (n in GV.nodes)
 		{
 			var distance:Float = Math.sqrt(Math.pow(n.x - mouseX, 2) + Math.pow(n.y - mouseY, 2));
 			if (distance < nearest && n.x < mouseX && n.y < mouseY)
@@ -60,14 +61,12 @@ class VisualizationPanel extends Sprite
 				nearest = distance;
 				targetNode = n;
 			}
-		}
+		}*/
 		
 		if (targetNode != null)
 		{
-			for (a in GV.agents)
-			{
-				a.CalculatePath(targetNode);
-			}
+			goalNode = targetNode;
+			Timer.measure(CalculatePaths);
 		}
 		
 		if (GV.debugMode)
@@ -86,7 +85,65 @@ class VisualizationPanel extends Sprite
 				RefreshDebugDraw();
 				Actuate.tween(GV.debugLayer, 0.3, { alpha: 0 } ).onComplete(KillOldDebugLayer);
 			}
-			
+		}
+	}
+	
+	public function Reset()
+	{
+		RemoveGrid();
+		RemoveAgents();
+		GV.alternateDebugLayer = false;
+		removeEventListener(MouseEvent.CLICK, OnClick);
+		timer.removeEventListener(TimerEvent.TIMER, OnTimerTick);
+	}
+	
+	private var goalNode:Node;
+	
+	private function OnClick(e:MouseEvent)
+	{
+		/*var nearest:Float = 9999;
+		var targetNode:Node = null;
+		
+		for (n in GV.nodes)
+		{
+			var distance:Float = Math.sqrt(Math.pow(n.x - mouseX, 2) + Math.pow(n.y - mouseY, 2));
+			if (distance < nearest && n.x < mouseX && n.y < mouseY)
+			{
+				nearest = distance;
+				targetNode = n;
+			}
+		}
+		
+		if (targetNode != null)
+		{
+			goalNode = targetNode;
+			Timer.measure(CalculatePaths);
+		}
+		
+		if (GV.debugMode)
+		{
+			if (GV.alternateDebugLayer)
+			{
+				goalNode = targetNode;
+				GV.alternateDebugLayer = !GV.alternateDebugLayer;
+				RefreshDebugDraw();
+				Actuate.tween(GV.debugLayerAlt, 0.3, { alpha: 0 } ).onComplete(KillOldDebugLayer);
+			}
+			else
+			{
+				goalNode = targetNode;
+				GV.alternateDebugLayer = !GV.alternateDebugLayer;
+				RefreshDebugDraw();
+				Actuate.tween(GV.debugLayer, 0.3, { alpha: 0 } ).onComplete(KillOldDebugLayer);
+			}
+		}*/
+	}
+	
+	private function CalculatePaths()
+	{
+		for (a in GV.agents)
+		{
+			a.CalculatePath(goalNode);
 		}
 	}
 	

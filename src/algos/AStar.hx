@@ -1,7 +1,6 @@
 package algos;
 import flash.geom.Point;
 import flash.Vector;
-
 /**
  * ...
  * @author Alex Klos
@@ -13,6 +12,8 @@ class AStar extends Algorithm
 	public function new(_s:Node, _g:Node) 
 	{
 		super(_s, _g);
+		
+		//StartTimer();
 		
 		startNode.vars.g = 0;
 		startNode.vars.h = Math.sqrt(Math.pow(goalNode.x - startNode.x, 2) + Math.pow(goalNode.y - startNode.y, 2));
@@ -51,9 +52,12 @@ class AStar extends Algorithm
 					UpdateVertex(s, neighbor);
 				}
 			}
+			
+			s.neighbors = null;
 		}
 		
 		path = closed;
+		//StopTimer();
 	}
 	
 	override private function UpdateVertex(_s:Node, _neighbor:Node)

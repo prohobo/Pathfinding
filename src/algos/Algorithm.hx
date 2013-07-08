@@ -16,6 +16,8 @@ class Algorithm
 	private var startNode:Node;
 	private var goalNode:Node;
 	
+	private var timer:StopWatch;
+	
 	public function new(_s:Node, _g:Node) 
 	{
 		startNode = new Node(_s.x, _s.y, _s.size, _s.parent);
@@ -29,6 +31,17 @@ class Algorithm
 	{
 		// override
 	}
+	
+	/*private function StartTimer()
+	{
+		timer = new StopWatch("pathfinding took ");
+	}
+	
+	private function StopTimer()
+	{
+		timer.stop();
+		trace(timer);
+	}*/
 	
 	/*public function InsertSorted(_n:Node, _list:Array<Node>)
 	{
@@ -59,11 +72,6 @@ class Algorithm
 	public function GetPath():Array<Node>
 	{
 		return path;
-	}
-	
-	private function GetNeighbors(_s:Node)
-	{
-		
 	}
 	
 }
