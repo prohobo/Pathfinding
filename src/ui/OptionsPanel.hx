@@ -48,7 +48,7 @@ class OptionsPanel extends Sprite
 		
 		// title
 		var title:TextField = new TextField();
-		title.text = "Pathfinding Algo. Test";
+		title.text = "Pathfinding Benchmark";
 		title.autoSize = TextFieldAutoSize.LEFT;
 		title.embedFonts = true;
 		title.mouseEnabled = false;
@@ -97,6 +97,42 @@ class OptionsPanel extends Sprite
 		
 		algoOptionSlider.options.addChild(option1);
 		
+		var option2 = new Sprite();
+		
+		var o2Bg = new Bitmap(new BitmapData(180, 40, true, 0xfff3f3f3));
+		option2.addChild(o2Bg);
+		var o2Text = new TextField();
+		o2Text.text = "Theta Star";
+		o2Text.autoSize = TextFieldAutoSize.CENTER;
+		o2Text.embedFonts = true;
+		o2Text.mouseEnabled = false;
+		o2Text.setTextFormat(optionTF);
+		o2Text.x = o2Bg.width / 2 - o2Text.width / 2;
+		o2Text.y = o2Bg.height / 2 - o2Text.height / 2;
+		option2.addChild(o2Text);
+		
+		option2.x = 180;
+		
+		algoOptionSlider.options.addChild(option2);
+		
+		var option3 = new Sprite();
+		
+		var o3Bg = new Bitmap(new BitmapData(180, 40, true, 0xfff3f3f3));
+		option3.addChild(o3Bg);
+		var o3Text = new TextField();
+		o3Text.text = "Jump Point Search";
+		o3Text.autoSize = TextFieldAutoSize.CENTER;
+		o3Text.embedFonts = true;
+		o3Text.mouseEnabled = false;
+		o3Text.setTextFormat(optionTF);
+		o3Text.x = o3Bg.width / 2 - o3Text.width / 2;
+		o3Text.y = o3Bg.height / 2 - o3Text.height / 2;
+		option3.addChild(o3Text);
+		
+		option3.x = 360;
+		
+		algoOptionSlider.options.addChild(option3);
+		
 		algoOptionSlider.x = panelBg.width / 2 - algoOptionSlider.containerBox.width / 2;
 		algoOptionSlider.y = algoLabel.y + algoLabel.height + 10;
 		
@@ -133,7 +169,7 @@ class OptionsPanel extends Sprite
 		o1Bg = new Bitmap(new BitmapData(180, 40, true, 0xfff3f3f3));
 		option1.addChild(o1Bg);
 		o1Text = new TextField();
-		o1Text.text = "Rectangle Grid";
+		o1Text.text = "Square Grid (60px)";
 		o1Text.autoSize = TextFieldAutoSize.CENTER;
 		o1Text.embedFonts = true;
 		o1Text.mouseEnabled = false;
@@ -144,12 +180,12 @@ class OptionsPanel extends Sprite
 		
 		searchSpaceOptionSlider.options.addChild(option1);
 		
-		var option2 = new Sprite();
+		option2 = new Sprite();
 		
-		var o2Bg = new Bitmap(new BitmapData(180, 40, true, 0xfff3f3f3));
+		o2Bg = new Bitmap(new BitmapData(180, 40, true, 0xfff3f3f3));
 		option2.addChild(o2Bg);
-		var o2Text = new TextField();
-		o2Text.text = "Quadtree";
+		o2Text = new TextField();
+		o2Text.text = "Square Grid (30px)";
 		o2Text.autoSize = TextFieldAutoSize.CENTER;
 		o2Text.embedFonts = true;
 		o2Text.mouseEnabled = false;
@@ -237,6 +273,24 @@ class OptionsPanel extends Sprite
 		
 		tweaksOptionSlider.options.addChild(option1);
 		
+		option2 = new Sprite();
+		
+		o2Bg = new Bitmap(new BitmapData(180, 40, true, 0xfff3f3f3));
+		option2.addChild(o2Bg);
+		o2Text = new TextField();
+		o2Text.text = "Share Paths";
+		o2Text.autoSize = TextFieldAutoSize.CENTER;
+		o2Text.embedFonts = true;
+		o2Text.mouseEnabled = false;
+		o2Text.setTextFormat(optionTF);
+		o2Text.x = o2Bg.width / 2 - o2Text.width / 2;
+		o2Text.y = o2Bg.height / 2 - o2Text.height / 2;
+		option2.addChild(o2Text);
+		
+		option2.x = 180;
+		
+		tweaksOptionSlider.options.addChild(option2);
+		
 		// END OF OPTIONS //
 		
 		tweaksOptionSlider.x = panelBg.width / 2 - tweaksOptionSlider.containerBox.width / 2;
@@ -291,6 +345,14 @@ class OptionsPanel extends Sprite
 		GV.searchSpace = searchSpaceOptionSlider.selectedOption;
 		GV.agentCount = Std.int(agentSlider.value);
 		GV.tweak = tweaksOptionSlider.selectedOption;
+		
+		switch (GV.searchSpace)
+		{
+			case 0:
+				GV.nodeSize = 60;
+			case 1:
+				GV.nodeSize = 30;
+		}
 		
 		GV.visPanelRef.Begin();
 		

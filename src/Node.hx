@@ -62,11 +62,24 @@ class Node
 			if (n.x != x || n.y != y)
 			{
 				var distance = Math.sqrt(Math.pow(x - n.x, 2) + Math.pow(y - n.y, 2));
-				if (distance <= Math.sqrt(Math.pow(60, 2) + Math.pow(60, 2)))
+				if (GV.algorithm == 0 || GV.algorithm == 2)
 				{
-					//n.caught = true;
-					var temp = new Node(n.x, n.y, n.size, n.parent);
-					neighborList.push(temp);
+					if (distance <= Math.sqrt(Math.pow(GV.nodeSize, 2) + Math.pow(GV.nodeSize, 2)))
+					{
+						//n.caught = true;
+						var temp = new Node(n.x, n.y, n.size, n.parent);
+						neighborList.push(temp);
+					}
+				}
+				else if (GV.algorithm == 1)
+				{
+					//trace("WAT");
+					if (distance <= Math.sqrt(Math.pow(GV.nodeSize, 2) + Math.pow(GV.nodeSize, 2)) * 2)
+					{
+						//n.caught = true;
+						var temp = new Node(n.x, n.y, n.size, n.parent);
+						neighborList.push(temp);
+					}
 				}
 			}
 		}

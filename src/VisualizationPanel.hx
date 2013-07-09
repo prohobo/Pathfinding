@@ -37,6 +37,7 @@ class VisualizationPanel extends Sprite
 		GenerateGrid();
 		addChild(GV.debugLayer);
 		AddAgents();
+		GV.walls = [];
 		
 		addEventListener(MouseEvent.CLICK, OnClick);
 		
@@ -67,6 +68,7 @@ class VisualizationPanel extends Sprite
 		{
 			goalNode = targetNode;
 			Timer.measure(CalculatePaths);
+			//CalculatePaths();
 		}
 		
 		if (GV.debugMode)
@@ -101,7 +103,7 @@ class VisualizationPanel extends Sprite
 	
 	private function OnClick(e:MouseEvent)
 	{
-		/*var nearest:Float = 9999;
+		var nearest:Float = 9999;
 		var targetNode:Node = null;
 		
 		for (n in GV.nodes)
@@ -116,27 +118,9 @@ class VisualizationPanel extends Sprite
 		
 		if (targetNode != null)
 		{
-			goalNode = targetNode;
-			Timer.measure(CalculatePaths);
+			addChild(new Wall(targetNode.x, targetNode.y));
+			GV.nodes.remove(targetNode);
 		}
-		
-		if (GV.debugMode)
-		{
-			if (GV.alternateDebugLayer)
-			{
-				goalNode = targetNode;
-				GV.alternateDebugLayer = !GV.alternateDebugLayer;
-				RefreshDebugDraw();
-				Actuate.tween(GV.debugLayerAlt, 0.3, { alpha: 0 } ).onComplete(KillOldDebugLayer);
-			}
-			else
-			{
-				goalNode = targetNode;
-				GV.alternateDebugLayer = !GV.alternateDebugLayer;
-				RefreshDebugDraw();
-				Actuate.tween(GV.debugLayer, 0.3, { alpha: 0 } ).onComplete(KillOldDebugLayer);
-			}
-		}*/
 	}
 	
 	private function CalculatePaths()
@@ -151,13 +135,13 @@ class VisualizationPanel extends Sprite
 	
 	private function KillOldDebugLayer()
 	{
-		if (GV.alternateDebugLayer)
+		if (GV.alternateDebugLayer && getChildIndex(GV.debugLayer) != -1)
 		{
 			dli = getChildIndex(GV.debugLayer);
 			removeChild(GV.debugLayer);
 			GV.debugLayer.alpha = 1;
 		}
-		else
+		else if (getChildIndex(GV.debugLayerAlt) != -1)
 		{
 			dli = getChildIndex(GV.debugLayerAlt);
 			removeChild(GV.debugLayerAlt);
@@ -182,7 +166,7 @@ class VisualizationPanel extends Sprite
 		}
 		
 		goalNode.debugGfx.graphics.beginFill(0xff0000, 0.2);
-		goalNode.debugGfx.graphics.drawRect(goalNode.x, goalNode.y, 60, 60);
+		goalNode.debugGfx.graphics.drawRect(goalNode.x, goalNode.y, GV.nodeSize, GV.nodeSize);
 		goalNode.debugGfx.graphics.endFill();
 		
 		for (a in GV.agents)
@@ -190,15 +174,15 @@ class VisualizationPanel extends Sprite
 			var start:Node = GC.GetNearestNode(a);
 			/*start.debugGfx.graphics.beginFill(0xffffff, 0.05);
 			start.debugGfx.graphics.lineStyle(0, 0x00ff00, 0);
-			start.debugGfx.graphics.drawRect(start.x, start.y, 60, 60);
+			start.debugGfx.graphics.drawRect(start.x, start.y, GV.nodeSize, GV.nodeSize);
 			start.debugGfx.graphics.endFill();*/
 			
 			for (n in 0...a.path.length - 1)
 			{
 				start.debugGfx.graphics.beginFill(0x00ff00, 0.5);
 				start.debugGfx.graphics.lineStyle(1, 0x00ff00, 0.5);
-				start.debugGfx.graphics.moveTo(a.path[n].x + 30, a.path[n].y + 30);
-				start.debugGfx.graphics.lineTo(a.path[n + 1].x + 30, a.path[n + 1].y + 30);
+				start.debugGfx.graphics.moveTo(a.path[n].x + (GV.nodeSize / 2), a.path[n].y + (GV.nodeSize / 2));
+				start.debugGfx.graphics.lineTo(a.path[n + 1].x + (GV.nodeSize / 2), a.path[n + 1].y + (GV.nodeSize / 2));
 				start.debugGfx.graphics.endFill();
 			}
 		}
@@ -223,15 +207,15 @@ class VisualizationPanel extends Sprite
 	
 	private function GenerateGrid()
 	{
-		var columns = Std.int(width / 60);
-		var rows = Std.int(height / 60);
+		var columns = Std.int(width / GV.nodeSize);
+		var rows = Std.int(height / GV.nodeSize);
 		GV.nodes = [];
 		
 		for (i in 0...columns)
 		{
 			for (j in 0...rows)
 			{
-				var n = new Node(i * 60, j * 60, 60, null);
+				var n = new Node(i * GV.nodeSize, j * GV.nodeSize, GV.nodeSize, null);
 				if (GV.debugMode)
 					n.DebugDraw();
 				GV.nodes.push(n);
@@ -265,6 +249,12 @@ class VisualizationPanel extends Sprite
 			removeChild(GV.debugLayer);
 		}
 		
+		for (w in GV.walls)
+		{
+			removeChild(w);
+		}
+		
+		GV.walls = [];
 		GV.nodes = [];
 	}
 	

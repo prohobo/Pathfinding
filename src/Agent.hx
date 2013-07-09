@@ -1,6 +1,8 @@
 package ;
 import algos.Algorithm;
 import algos.AStar;
+import algos.JPSearch;
+import algos.ThetaStar;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Sprite;
@@ -45,6 +47,10 @@ class Agent extends Sprite
 		{
 			case 0:
 				a = new AStar(GC.GetNearestNode(this), _goal);
+			case 1:
+				a = new ThetaStar(GC.GetNearestNode(this), _goal);
+			case 2:
+				a = new JPSearch(GC.GetNearestNode(this), _goal);
 		}
 		
 		path = a.GetPath();
@@ -58,7 +64,7 @@ class Agent extends Sprite
 	{
 		if (path != null && path.length > 0)
 		{
-			var angle = Math.atan2(path[0].y + 30 - y, path[0].x + 30 - x);
+			var angle = Math.atan2(path[0].y + (GV.nodeSize / 2) - y, path[0].x + (GV.nodeSize / 2) - x);
 			x += Math.cos(angle) * 3;
 			y += Math.sin(angle) * 3;
 			
@@ -75,7 +81,27 @@ class Agent extends Sprite
 				}
 			}
 			
-			if (Math.sqrt(Math.pow(path[0].x + 30 - x, 2) + Math.pow(path[0].y + 30 - y, 2)) <= 30)
+			for (w in GV.walls)
+			{
+				if (w.hitTestObject(this))
+				{
+					angle = Math.atan2(w.y + (GV.nodeSize / 2) - y, w.x + (GV.nodeSize / 2) - x);
+					x -= Math.cos(angle) * 3;
+					y -= Math.sin(angle) * 3;
+				}
+			}
+			
+			if (x < 0)
+				x = 0;
+			else if (x > 600)
+				x = 600;
+			
+			if (y < 0)
+				y = 0;
+			else if (y > 420)
+				y = 420;
+			
+			if (Math.sqrt(Math.pow(path[0].x + (GV.nodeSize / 2) - x, 2) + Math.pow(path[0].y + (GV.nodeSize / 2) - y, 2)) <= (GV.nodeSize / 2))
 			{
 				path.remove(path[0]);
 			}

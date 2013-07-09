@@ -16,14 +16,14 @@ class Algorithm
 	private var startNode:Node;
 	private var goalNode:Node;
 	
-	private var timer:StopWatch;
+	private var cost:Float;
 	
 	public function new(_s:Node, _g:Node) 
 	{
+		// TODO: fix bug, if an agent is off of the grid the startnode returns null (crashes app)
 		startNode = new Node(_s.x, _s.y, _s.size, _s.parent);
 		goalNode = new Node(_g.x, _g.y, _g.size, _g.parent);
-		//startNode = _s;
-		//goalNode = _g;
+		
 		// override
 	}
 	
@@ -31,17 +31,6 @@ class Algorithm
 	{
 		// override
 	}
-	
-	/*private function StartTimer()
-	{
-		timer = new StopWatch("pathfinding took ");
-	}
-	
-	private function StopTimer()
-	{
-		timer.stop();
-		trace(timer);
-	}*/
 	
 	/*public function InsertSorted(_n:Node, _list:Array<Node>)
 	{
@@ -71,6 +60,7 @@ class Algorithm
 	
 	public function GetPath():Array<Node>
 	{
+		//trace("PATH LENGTH: " + path.length);
 		return path;
 	}
 	
