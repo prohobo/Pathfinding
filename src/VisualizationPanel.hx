@@ -38,6 +38,7 @@ class VisualizationPanel extends Sprite
 		addChild(GV.debugLayer);
 		AddAgents();
 		GV.walls = [];
+		GV.outputRef.BeginLog();
 		
 		addEventListener(MouseEvent.CLICK, OnClick);
 		
@@ -67,7 +68,10 @@ class VisualizationPanel extends Sprite
 		if (targetNode != null)
 		{
 			goalNode = targetNode;
+			GV.longestPath = 0;
+			GV.longestDistance = 0;
 			Timer.measure(CalculatePaths);
+			GV.outputRef.AddEntry(GV.execTime - 2, GV.longestPath, GV.longestDistance, GV.walls.length);
 			//CalculatePaths();
 		}
 		

@@ -61,6 +61,8 @@ class Algorithm
 	public function GetPath():Array<Node>
 	{
 		//trace("PATH LENGTH: " + path.length);
+		if (path.length > GV.longestPath)
+			GV.longestPath = path.length;
 		return path;
 	}
 	

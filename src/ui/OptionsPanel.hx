@@ -246,7 +246,7 @@ class OptionsPanel extends Sprite
 		tweaksLabel.setTextFormat(labelTF);
 		tweaksLabel.x = 10;
 		tweaksLabel.y = line.y + 10;
-		panel.addChild(tweaksLabel);
+		//panel.addChild(tweaksLabel);
 		
 		// OPTION SLIDER //
 		
@@ -296,7 +296,7 @@ class OptionsPanel extends Sprite
 		tweaksOptionSlider.x = panelBg.width / 2 - tweaksOptionSlider.containerBox.width / 2;
 		tweaksOptionSlider.y = tweaksLabel.y + tweaksLabel.height + 10;
 		
-		panel.addChild(tweaksOptionSlider);
+		//panel.addChild(tweaksOptionSlider);
 		
 		// END OF OPTION SLIDER //
 		
@@ -304,7 +304,7 @@ class OptionsPanel extends Sprite
 		line = new Bitmap(new BitmapData(180, 1, true, 0xfff1f2f2));
 		line.x = panelBg.width / 2 - line.width / 2;
 		line.y = tweaksLabel.y + tweaksLabel.height + 60;
-		panel.addChild(line);
+		//panel.addChild(line);
 		
 		// BUTTONS //
 		var startBtnGfx:Sprite = new Sprite();
@@ -365,6 +365,7 @@ class OptionsPanel extends Sprite
 		pauseBtn.removeEventListener(MouseEvent.CLICK, PauseBtnClick);
 		startBtn.addEventListener(MouseEvent.CLICK, StartBtnClick);
 		
+		GV.outputRef.CloseLog();
 		// pause
 	}
 	

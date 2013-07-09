@@ -1,0 +1,1 @@
+<output><settings algorithm="A-Star" searchSpace="60" agents="1"/><benchmark><executionTime>4</executionTime><longestPath>2</longestPath><topDistance>84</topDistance><wallCount>0</wallCount></benchmark><benchmark><executionTime>0</executionTime><longestPath>4</longestPath><topDistance>216</topDistance><wallCount>0</wallCount></benchmark></output>

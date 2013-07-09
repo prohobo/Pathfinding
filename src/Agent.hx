@@ -43,14 +43,20 @@ class Agent extends Sprite
 		var a:Algorithm = null;
 		path = [];
 		
+		var start:Node = GC.GetNearestNode(this);
+		
+		var distance = Math.sqrt(Math.pow(_goal.x - start.x, 2) + Math.pow(_goal.y - start.y, 2));
+		if (distance > GV.longestDistance)
+			GV.longestDistance = Std.int(distance);
+		
 		switch (GV.algorithm)
 		{
 			case 0:
-				a = new AStar(GC.GetNearestNode(this), _goal);
+				a = new AStar(start, _goal);
 			case 1:
-				a = new ThetaStar(GC.GetNearestNode(this), _goal);
+				a = new ThetaStar(start, _goal);
 			case 2:
-				a = new JPSearch(GC.GetNearestNode(this), _goal);
+				a = new JPSearch(start, _goal);
 		}
 		
 		path = a.GetPath();
@@ -91,15 +97,15 @@ class Agent extends Sprite
 				}
 			}
 			
-			if (x < 0)
-				x = 0;
-			else if (x > 600)
-				x = 600;
+			if (x < 6)
+				x = 6;
+			else if (x > 594)
+				x = 594;
 			
-			if (y < 0)
-				y = 0;
-			else if (y > 420)
-				y = 420;
+			if (y < 6)
+				y = 6;
+			else if (y > 414)
+				y = 414;
 			
 			if (Math.sqrt(Math.pow(path[0].x + (GV.nodeSize / 2) - x, 2) + Math.pow(path[0].y + (GV.nodeSize / 2) - y, 2)) <= (GV.nodeSize / 2))
 			{

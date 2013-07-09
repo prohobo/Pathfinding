@@ -15,6 +15,7 @@ class GV
 	public static var nodeSize:Int;
 	
 	public static var visPanelRef:VisualizationPanel;
+	public static var outputRef:OutputPanel;
 	
 	public static var nodes:Array<Node>;
 	public static var agents:Array<Agent>;
@@ -24,4 +25,8 @@ class GV
 	public static var debugLayer:Sprite;
 	public static var debugLayerAlt:Sprite;
 	public static var alternateDebugLayer:Bool = false;
+	
+	public static var execTime:Int;
+	public static var longestPath:Int;
+	public static var longestDistance:Int;
 }
